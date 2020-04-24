@@ -279,20 +279,30 @@ for(index in opt_array) {
 }
 function loadFrequent(freq_prof){
 	var orig_opt = document.getElementById("select-origin");
-  var dest_opt = document.getElementById("select-dest");
+	var dest_opt = document.getElementById("select-dest");
   
-var orig_freq_opt = document.getElementById("freq-origin");
+	var orig_freq_opt = document.getElementById("freq-origin");
 	var dest_freq_opt = document.getElementById("freq-dest");
-    for ( var j = 0; j < freq_prof.length; j++ ) {
-       for ( var i = orig_freq_opt.childElementCount+1; i < orig_opt.options.length; i++ ) {
-          if (orig_opt.options[i].value == freq_prof[j]) {
-            var opt_item_orig=orig_opt.options[i] ;
-            var opt_item_dest=dest_opt.options[i-1] ;
-            orig_freq_opt.appendChild(opt_item_orig);
-            dest_freq_opt.appendChild(opt_item_dest);
-          }
-       }
-    }   
+	var freq_index=[];
+	
+	for ( var i = 0; i < dest_opt.options.length; i++ ) {
+		for ( var j = 0; j < freq_prof.length; j++ ) {
+			if (dest_opt.options[i].value == freq_prof[j]) freq_index[j] =  i;		
+		};
+	};
+	for ( var i = 0; i < freq_index.length; i++ ) {
+		//console.log(freq_label[i] + " " +freq_index[i]);
+		var increment=0;
+		for ( var j= 0; j < i; j++ ) {
+			if (freq_index[i]<freq_index[j]) increment++ ;
+		}
+		//~ 	    var opt_item_orig=orig_opt.options[freq_index[i]] ;
+		//~ 	    var opt_item_dest=dest_opt.options[freq_index[i]-1] ;
+		var opt_item_orig=orig_opt.options[freq_index[i]+increment+1] ;
+		var opt_item_dest=dest_opt.options[freq_index[i]+increment] ;
+		orig_freq_opt.appendChild(opt_item_orig);
+		dest_freq_opt.appendChild(opt_item_dest);
+	 };
 }
 
       /**
